@@ -7,5 +7,6 @@ public class attendenceQuery {
 	public static String insert="INSERT INTO "+"`"+constant.dbName+"`"+".`attendence`(`studentId`,`studentName`, `departmentName`,`loginTime`,`logoutTime`,`attendancePercentage`)VALUES((?),(?),(?),(?),(?),(?));";
 	public static String select="SELECT * FROM "+"`"+constant.dbName+"`"+".attendence;";
 	public static String delete="DELETE FROM "+"`"+constant.dbName+"`"+".`attendence`WHERE studentId=(?);";
-	public static String update="UPDATE "+"`"+constant.dbName+"`"+".`attendence`SET`studentName` = (?) ,`departmentName` = (?),`loginTime` = (?),`logoutTime` = (?),`attendancePercentage` = (?) WHERE `studentId`= (?);";
+	public static String update="UPDATE "+"`"+constant.dbName+"`"+".`attendence`SET`studentName` = (?) ,`departmentName` = (?),`loginTime` = (?),`logoutTime` = (?) WHERE `srNo`= (?);";
+	public static String percentageCalculationQuery="SELECT studentName FROM "+"`"+constant.dbName+"`"+".`attendence`WHERE studentId= ?;";
 }

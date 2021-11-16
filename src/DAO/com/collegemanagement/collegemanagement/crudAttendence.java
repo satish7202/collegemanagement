@@ -17,7 +17,7 @@ public class crudAttendence {
 	Connection con;
 	PreparedStatement ps;
 	int count=0;
-	public int insertAttendence(int sid,String sName,String department,String loginTime,String logoutTime,int attendencePercentage)
+	public int insertAttendence(int sid,String sName,String department,String loginTime,String logoutTime,float attendencePercentage)
 	{
 		try {
 
@@ -31,7 +31,7 @@ public class crudAttendence {
 			ps.setString(3,department);
 			ps.setString(4,loginTime);
 			ps.setString(5,logoutTime);
-			ps.setInt(6,attendencePercentage);
+			ps.setFloat(6,attendencePercentage);
 			count = ps.executeUpdate ();
 			System.out.println("Inserted Rows "+count);
 
@@ -55,11 +55,11 @@ public class crudAttendence {
 			ResultSet rs = stmt.executeQuery(attendenceQuery.select);
 
 			while (rs.next()) {
-				System.out.println(rs.getInt(1) + "  " + rs.getString(2) + "  " + rs.getString(3)
-						+ "  " + rs.getString(4) + "  " + rs.getString(5)+"  "+rs.getInt(6));
-				model[length] = new attendenceModel(rs.getInt(1),rs.getString(2),
+//				System.out.println(rs.getInt(1) + "  " + rs.getString(2) + "  " + rs.getString(3)
+//						+ "  " + rs.getString(4) + "  " + rs.getString(5)+"  "+rs.getInt(6));
+				model[length] = new attendenceModel(rs.getInt(1),rs.getInt(2),
 						rs.getString(3),rs.getString(4),rs.getString(5),
-						rs.getInt(6));
+						rs.getString(6),rs.getInt(7));
 				listModel.add(model[length]);
 				length++;
 //                productmap.put("Product_Id",rs.getString(1));
@@ -96,7 +96,7 @@ public class crudAttendence {
 		}
 		return deleted_row;
 	}
-	public int attendenceUpdate(int sid,String sName,String department,String loginTime,String logoutTime,int attendencePercentage)
+	public int attendenceUpdate(int srNo,String sName,String department,String loginTime,String logoutTime)
 	{
 		int updated_row=0;
 		try {
@@ -107,8 +107,7 @@ public class crudAttendence {
 			ps.setString(2,department);
 			ps.setString(3,loginTime);
 			ps.setString(4,logoutTime);
-			ps.setInt(5,attendencePercentage);
-			ps.setInt(6,sid);
+			ps.setInt(5,srNo);
 			updated_row = ps.executeUpdate();
 
 		}
@@ -117,5 +116,38 @@ public class crudAttendence {
 			System.out.println("Errorr."+e);
 		}
 		return updated_row;
+	}
+	public Float attendencePercentage(int sId)
+	{
+		//attendenceModel[] model=new attendenceModel[100];
+		//List<attendenceModel> listModel = new ArrayList<>();
+		float length=0,noDays=31;
+		float attendencePercentage=0;
+		try {
+
+			con= connection.getConnection();
+			Statement stmt = con.createStatement();
+			ps = con.prepareStatement(attendenceQuery.percentageCalculationQuery);
+			ps.setInt(1,sId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+
+				length++;
+//                productmap.put("Product_Id",rs.getString(1));
+//                productmap.put("Product_Name",rs.getString(2));
+//                productmap.put("Product_Rate",Integer.toString(rs.getInt(3)));
+//                productmap.put("Product_Description",rs.getString(4));
+//                productmap.put("Supplier_Id",rs.getString(5));
+
+
+			}
+			attendencePercentage=length/noDays*100;
+			con.close();
+		}
+		catch (Exception e)
+		{
+			System.out.println("Error..."+e);
+		}
+		return attendencePercentage;
 	}
 }
