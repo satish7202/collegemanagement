@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class crudAttendence {
+public class CrudAttendence {
 	@Autowired
-	sqlConnection connection;
+	SqlConnection connection;
 	Connection con;
 	PreparedStatement ps;
 	int count=0;
@@ -22,8 +22,8 @@ public class crudAttendence {
 		try {
 
 			con = connection.getConnection();
-			Statement stmt = con.createStatement();
-			ps = con.prepareStatement(attendenceQuery.insert);
+			//Statement stmt = con.createStatement();
+			ps = con.prepareStatement(AttendenceQuery.insert);
 			//Database Name Pass in dbName present in constant class
 			//ps.setString(1,constant.dbName);
 			ps.setInt(1,sid);
@@ -45,19 +45,19 @@ public class crudAttendence {
 	}
 	public List selectAttendence()
 	{
-		attendenceModel[] model=new attendenceModel[100];
-		List<attendenceModel> listModel = new ArrayList<>();
+		AttendenceModel[] model=new AttendenceModel[100];
+		List<AttendenceModel> listModel = new ArrayList<>();
 		int length=0;
 		try {
 
 			con= connection.getConnection();
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(attendenceQuery.select);
+			ResultSet rs = stmt.executeQuery(AttendenceQuery.select);
 
 			while (rs.next()) {
 //				System.out.println(rs.getInt(1) + "  " + rs.getString(2) + "  " + rs.getString(3)
 //						+ "  " + rs.getString(4) + "  " + rs.getString(5)+"  "+rs.getInt(6));
-				model[length] = new attendenceModel(rs.getInt(1),rs.getInt(2),
+				model[length] = new AttendenceModel(rs.getInt(1),rs.getInt(2),
 						rs.getString(3),rs.getString(4),rs.getString(5),
 						rs.getString(6),rs.getInt(7));
 				listModel.add(model[length]);
@@ -79,14 +79,14 @@ public class crudAttendence {
 		}
 		return listModel;
 	}
-	public int Delete(int sId)
+	public int Delete(int srNo)
 	{
 		int deleted_row=0;
 		try {
 			con= connection.getConnection();
-			Statement stmt = con.createStatement();
-			ps = con.prepareStatement(attendenceQuery.delete);
-			ps.setInt(1,sId);
+			//Statement stmt = con.createStatement();
+			ps = con.prepareStatement(AttendenceQuery.delete);
+			ps.setInt(1,srNo);
 			deleted_row = ps.executeUpdate();
 
 		}
@@ -96,18 +96,19 @@ public class crudAttendence {
 		}
 		return deleted_row;
 	}
-	public int attendenceUpdate(int srNo,String sName,String department,String loginTime,String logoutTime)
+	public int attendenceUpdate(int srNo,String sName,String department,String loginTime,String logoutTime,int attdencePercentage)
 	{
 		int updated_row=0;
 		try {
 			con= connection.getConnection();
 			Statement stmt = con.createStatement();
-			ps = con.prepareStatement(attendenceQuery.update);
+			ps = con.prepareStatement(AttendenceQuery.update);
 			ps.setString(1,sName);
 			ps.setString(2,department);
 			ps.setString(3,loginTime);
 			ps.setString(4,logoutTime);
-			ps.setInt(5,srNo);
+			ps.setInt(5,attdencePercentage);
+			ps.setInt(6,srNo);
 			updated_row = ps.executeUpdate();
 
 		}
@@ -117,7 +118,7 @@ public class crudAttendence {
 		}
 		return updated_row;
 	}
-	public Float attendencePercentage(int sId)
+	public float attendencePercentage(int sId)
 	{
 		//attendenceModel[] model=new attendenceModel[100];
 		//List<attendenceModel> listModel = new ArrayList<>();
@@ -127,7 +128,7 @@ public class crudAttendence {
 
 			con= connection.getConnection();
 			Statement stmt = con.createStatement();
-			ps = con.prepareStatement(attendenceQuery.percentageCalculationQuery);
+			ps = con.prepareStatement(AttendenceQuery.percentageCalculationQuery);
 			ps.setInt(1,sId);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {

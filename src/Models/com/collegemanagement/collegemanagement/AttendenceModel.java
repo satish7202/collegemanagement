@@ -1,17 +1,17 @@
 package com.collegemanagement.collegemanagement;
-public class attendenceModel {
+public class AttendenceModel {
 	int studentId,srNo;
 	String studentName;
-	String departmentName;
+	String department;
 	String loginTime;
 	String logoutTime;
 	int attendencePercentage;
 
-	public attendenceModel(int srNo,int sid, String sName, String department, String loginTime, String logoutTime, int attendencePercentage) {
+	public AttendenceModel(int srNo, int sid, String sName, String department, String loginTime, String logoutTime, int attendencePercentage) {
 		this.srNo=srNo;
 		this.studentId = sid;
 		this.studentName = sName;
-		this.departmentName = department;
+		this.department = department;
 		this.loginTime = loginTime;
 		this.logoutTime = logoutTime;
 		this.attendencePercentage = attendencePercentage;

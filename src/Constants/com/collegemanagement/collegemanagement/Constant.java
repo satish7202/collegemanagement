@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 
-class constant {
+class Constant {
 	public static String sqldriver="com.mysql.jdbc.Driver";
 	public static String url="jdbc:mysql://localhost:3306/";
 	public static String user="root";
